@@ -211,3 +211,23 @@ class TestProductModel(unittest.TestCase):
         self.assertEqual(found.count(), count)
         for product in found:
             self.assertEqual(product.price, price)
+
+    def test_deserialize(self):
+        """ It should deserialize product from dictionary """
+        product = ProductFactory()
+        product_dict = {
+            "name": "Hat",
+            "description": "Test product",
+            "price": "100.0",
+            "available": "True",
+            "category": "CLOTHS"
+        }
+        product_dict_2 = {
+            "name": "Hat",
+            "description": "Test product",
+            "price": "100.0",
+            "available": True,
+            "category": "CLOTHES"
+        }
+        self.assertRaises(DataValidationError, product.deserialize, product_dict)
+        self.assertRaises(DataValidationError, product.deserialize, product_dict_2)
